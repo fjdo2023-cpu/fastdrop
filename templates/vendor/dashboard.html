@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-3">Dashboard - Vendedor</h1>
+<p>Você já possui {{ order_count }} pedidos processados pelo Fast Drop.</p>
+<a href="{{ url_for('vendor.catalog') }}" class="btn btn-primary">Ver catálogo</a>
+<a href="{{ url_for('bling.connect') }}" class="btn btn-outline-secondary">Conectar Bling</a>
+{% endblock %}

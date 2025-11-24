@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-3">Catálogo de produtos</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>SKU</th>
+      <th>Nome</th>
+      <th>Preço atacado</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.sku }}</td>
+      <td>{{ p.name }}</td>
+      <td>R$ {{ '%.2f'|format(p.wholesale_price) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

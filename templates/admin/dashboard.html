@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Dashboard - Admin</h1>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Produtos</h5>
+        <p class="card-text display-6">{{ product_count }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Vendedores</h5>
+        <p class="card-text display-6">{{ vendor_count }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Pedidos pendentes</h5>
+        <p class="card-text display-6">{{ pending_orders }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

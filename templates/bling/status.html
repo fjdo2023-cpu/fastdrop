@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-3">Status de integração com o Bling</h1>
+{% if vendor.bling_connected and vendor.bling_account %}
+  <p>Bling conectado.</p>
+  <p>Token expira em: {{ vendor.bling_account.token_expires_at }}</p>
+{% else %}
+  <p>Bling ainda não conectado.</p>
+  <a href="{{ url_for('bling.connect') }}" class="btn btn-primary">Conectar agora</a>
+{% endif %}
+{% endblock %}

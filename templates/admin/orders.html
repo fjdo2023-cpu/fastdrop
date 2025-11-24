@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-3">Pedidos</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</</th>
+      <th>Vendedor</th>
+      <th>Status</th>
+      <th>Criado em</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in orders %}
+    <tr>
+      <td>{{ o.id }}</td>
+      <td>{{ o.vendor.company_name if o.vendor else '-' }}</td>
+      <td>{{ o.status }}</td>
+      <td>{{ o.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
