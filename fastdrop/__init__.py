@@ -4,7 +4,11 @@ from .extensions import db, migrate, login_manager
 from .models import User
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder="../templates"   # <-- ESSA LINHA RESOLVE
+    )
+
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
         SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", "sqlite:///fastdrop.db"),
