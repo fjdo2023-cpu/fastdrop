@@ -61,4 +61,26 @@ def register_vendor():
 
         flash("Cadastro realizado. Faça login.", "success")
         return redirect(url_for("auth.login"))
+        @auth_bp.route("/init-admin")
+def init_admin():
+    from .models import User
+    from .extensions import db
+    from werkzeug.security import generate_password_hash
+
+    db.create_all()
+
+    admin_email = "admin@fastdrop.com"
+    admin = User.query.filter_by(email=admin_email).first()
+
+    if not admin:
+        admin = User(
+            name="Administrador",
+            email=admin_email,
+            password_hash=generate_password_hash("123456"),
+            role="admin",
+            active=True
+        )
+        db.session.add(admin)
+        db.session.commit()
+        return "Admin criado: admin@fastdrop.com /
     return render_template("auth/register_vendor.html")
