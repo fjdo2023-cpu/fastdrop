@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from ..extensions import db
@@ -88,6 +88,7 @@ def register_vendor():
 # ============================
 @auth_bp.route("/init-admin")
 def init_admin():
+    # cria todas as tabelas
     db.create_all()
 
     admin_email = "admin@fastdrop.com"
@@ -103,7 +104,6 @@ def init_admin():
         )
         db.session.add(admin)
         db.session.commit()
-
         return "Admin criado: admin@fastdrop.com / senha 123456"
 
     return "Admin já existe."
