@@ -46,19 +46,20 @@ def upload_image_to_s3(file_obj, folder="products"):
         or os.getenv("AWS_S3_BUCKET")
     )
     if not bucket:
-        return None
+        raise RuntimeError("Bucket S3 não configurado nas variáveis de ambiente.")
 
     filename = secure_filename(file_obj.filename)
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "jpg"
     key = f"{folder}/{uuid.uuid4().hex}.{ext}"
 
     s3 = _get_s3_client()
+    # IMPORTANTE: sem ACL (bucket owner enforced)
     s3.upload_fileobj(
-    file_obj,
-    bucket,
-    key,
-    ExtraArgs={"ContentType": file_obj.mimetype},
-)
+        file_obj,
+        bucket,
+        key,
+        ExtraArgs={"ContentType": file_obj.mimetype},
+    )
 
     region = os.getenv("AWS_S3_REGION") or os.getenv("AWS_REGION") or "us-east-2"
     url = f"https://{bucket}.s3.{region}.amazonaws.com/{key}"
