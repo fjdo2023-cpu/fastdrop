@@ -2,8 +2,7 @@ from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from ..models import Vendor, Product, Order
 
-vendor_bp = Blueprint("vendor", __name__, template_folder="../../templates/vendor")
-
+vendor_bp = Blueprint("vendor", __name__)
 def vendor_required(func):
     from functools import wraps
     from flask import abort
