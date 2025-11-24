@@ -4,8 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
 from ..models import User, Vendor
 
-auth_bp = Blueprint("auth", __name__, template_folder="../../templates/auth")
-
+auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
