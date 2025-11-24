@@ -117,7 +117,8 @@ def add_product():
         product = Product(
             name=name,
             sku=sku,
-            price=price,
+            # CORRIGIDO: Mudança de 'price=' para 'preco=' para corresponder ao modelo do SQLAlchemy
+            preco=price, 
             stock=stock,
             description=description,
             image_url=image_url,
@@ -143,7 +144,8 @@ def edit_product(product_id):
     if request.method == "POST":
         product.name = request.form.get("name")
         product.sku = request.form.get("sku")
-        product.price = request.form.get("price")
+        # CORRIGIDO: Mudança de 'product.price' para 'product.preco'
+        product.preco = request.form.get("price") 
         product.stock = request.form.get("stock")
         product.description = request.form.get("description")
 
