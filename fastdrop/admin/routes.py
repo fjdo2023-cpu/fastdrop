@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 import boto3
 
 from ..extensions import db
-from ..models import Product, User, Vendor
+from ..models import Product, Vendor, User
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -41,16 +41,14 @@ def upload_image_to_s3(file_obj, folder="products"):
         return None
 
     bucket = (
-        os.getenv("S3_BUCKET_NAME")
+        os.getenv("AWS_BUCKET_NAME")
+        or os.getenv("S3_BUCKET_NAME")
         or os.getenv("AWS_S3_BUCKET")
-        or os.getenv("AWS_S3_BUCKET_NAME")
     )
     if not bucket:
-        # Sem bucket configurado, não faz upload
         return None
 
     filename = secure_filename(file_obj.filename)
-    # extensão
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "jpg"
     key = f"{folder}/{uuid.uuid4().hex}.{ext}"
 
@@ -78,7 +76,7 @@ def dashboard():
 
     products_count = Product.query.count()
     vendors_count = Vendor.query.count()
-    pending_orders_count = 0  # por enquanto, ainda não temos módulo de pedidos
+    pending_orders_count = 0  # ainda não temos pedidos
 
     return render_template(
         "admin/dashboard.html",
@@ -90,7 +88,8 @@ def dashboard():
 
 @admin_bp.route("/products")
 @login_required
-def products():
+def list_products():
+    """Endpoint: admin.list_products"""
     if current_user.role != "admin":
         return "Acesso negado", 403
 
@@ -112,7 +111,6 @@ def add_product():
         description = request.form.get("description")
         image_file = request.files.get("image")
 
-        # Upload para S3
         image_url = upload_image_to_s3(image_file)
 
         product = Product(
@@ -128,7 +126,7 @@ def add_product():
         db.session.commit()
 
         flash("Produto criado com sucesso!", "success")
-        return redirect(url_for("admin.products"))
+        return redirect(url_for("admin.list_products"))
 
     return render_template("admin/product_form.html", product=None)
 
@@ -156,7 +154,7 @@ def edit_product(product_id):
 
         db.session.commit()
         flash("Produto atualizado com sucesso!", "success")
-        return redirect(url_for("admin.products"))
+        return redirect(url_for("admin.list_products"))
 
     return render_template("admin/product_form.html", product=product)
 
@@ -172,7 +170,7 @@ def toggle_product(product_id):
     db.session.commit()
 
     flash("Status do produto atualizado.", "info")
-    return redirect(url_for("admin.products"))
+    return redirect(url_for("admin.list_products"))
 
 
 @admin_bp.route("/products/<int:product_id>/delete", methods=["POST"])
@@ -186,4 +184,4 @@ def delete_product(product_id):
     db.session.commit()
 
     flash("Produto removido.", "warning")
-    return redirect(url_for("admin.products"))
+    return redirect(url_for("admin.list_products"))
