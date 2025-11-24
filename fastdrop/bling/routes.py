@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from ..extensions import db
 from ..models import Vendor, BlingAccount
 
-bling_bp = Blueprint("bling", __name__, template_folder="../../templates/bling")
+bling_bp = Blueprint("bling", __name__)
 
 BLING_AUTH_URL = "https://www.bling.com.br/Api/v3/oauth/authorize"
 BLING_TOKEN_URL = "https://www.bling.com.br/Api/v3/oauth/token"
