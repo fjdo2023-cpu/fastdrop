@@ -6,28 +6,75 @@
 <form method="POST" enctype="multipart/form-data">
   <div class="mb-3">
     <label class="form-label">Nome do produto</label>
-    <input type="text" name="name" class="form-control" required
-           value="{{ product.name if product else '' }}">
+    <input
+      type="text"
+      name="name"
+      class="form-control"
+      required
+      value="{{ product.name if product else '' }}"
+    >
   </div>
 
   <div class="mb-3">
     <label class="form-label">SKU</label>
-    <input type="text" name="sku" class="form-control" required
-           value="{{ product.sku if product else '' }}">
+    <input
+      type="text"
+      name="sku"
+      class="form-control"
+      required
+      value="{{ product.sku if product else '' }}"
+    >
   </div>
 
   <div class="mb-3">
     <label class="form-label">Preço (R$)</label>
-    <input type="number" name="price" step="0.01" class="form-control" required
-           value="{{ product.price if product else '' }}">
+    <input
+      type="number"
+      name="price"
+      step="0.01"
+      class="form-control"
+      required
+      value="{{ product.price if product else '' }}"
+    >
   </div>
 
   <div class="mb-3">
     <label class="form-label">Estoque</label>
-    <input type="number" name="stock" class="form-control" required
-           value="{{ product.stock if product else 0 }}">
+    <input
+      type="number"
+      name="stock"
+      class="form-control"
+      required
+      value="{{ product.stock if product else 0 }}"
+    >
   </div>
 
   <div class="mb-3">
     <label class="form-label">Descrição</label>
     <textarea
+      name="description"
+      class="form-control"
+      rows="3"
+    >{{ product.description if product else "" }}</textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Imagem (JPG/PNG)</label>
+    <input
+      type="file"
+      name="image"
+      accept="image/*"
+      class="form-control"
+    >
+    {% if product and product.image_url %}
+      <small class="form-text text-muted">
+        Imagem atual:
+        <a href="{{ product.image_url }}" target="_blank">ver</a>
+      </small>
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-success">Salvar</button>
+  <a href="{{ url_for('admin.list_products') }}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}
