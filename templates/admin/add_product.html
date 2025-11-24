@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Novo Produto</h2>
+
+<form action="{{ url_for('admin.add_product') }}" method="POST" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label>Nome do Produto</label>
+        <input class="form-control" name="name" required>
+    </div>
+
+    <div class="mb-3">
+        <label>SKU</label>
+        <input class="form-control" name="sku" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Preço</label>
+        <input class="form-control" name="price" type="number" step="0.01" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Quantidade em estoque</label>
+        <input class="form-control" name="stock" type="number" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Imagem (JPG/PNG)</label>
+        <input class="form-control" type="file" name="image" accept="image/*" required>
+    </div>
+
+    <button class="btn btn-success">Salvar Produto</button>
+
+</form>
+{% endblock %}
