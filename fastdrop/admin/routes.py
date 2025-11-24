@@ -54,11 +54,11 @@ def upload_image_to_s3(file_obj, folder="products"):
 
     s3 = _get_s3_client()
     s3.upload_fileobj(
-        file_obj,
-        bucket,
-        key,
-        ExtraArgs={"ACL": "public-read", "ContentType": file_obj.mimetype},
-    )
+    file_obj,
+    bucket,
+    key,
+    ExtraArgs={"ContentType": file_obj.mimetype},
+)
 
     region = os.getenv("AWS_S3_REGION") or os.getenv("AWS_REGION") or "us-east-2"
     url = f"https://{bucket}.s3.{region}.amazonaws.com/{key}"
